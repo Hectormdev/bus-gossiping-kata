@@ -1,6 +1,11 @@
 package org.example;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.groupingBy;
 
 public class BusGossipSystem {
     public static final int MAX_STOPS_PER_DAY = 480;
@@ -29,6 +34,14 @@ public class BusGossipSystem {
 
     public void iterate() {
         drivers.forEach(BusDriver::moveToNextStop);
+        Map<Integer, List<BusDriver>> busDriverByStops = drivers.stream().collect(groupingBy(BusDriver::getCurrentStop));
+        busDriverByStops.values().forEach(this::shareSecrets);
+
+    }
+
+    private void shareSecrets(List<BusDriver> drivers) {
+        Set<Integer> allSecrets = drivers.stream().flatMap(driver -> driver.getSecrets().stream()).collect(Collectors.toSet());
+        drivers.forEach(driver -> driver.learnSecrets(allSecrets));
     }
 
     public int getNumberOfDriversAtStop(int stop) {

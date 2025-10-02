@@ -2,6 +2,7 @@ package org.example;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BusDriver {
     private final Integer id;
@@ -13,7 +14,8 @@ public class BusDriver {
     public BusDriver(Integer id, List<Integer> stops) {
         this.id = id;
         this.stops = stops;
-        this.secrets = new HashSet<>(id);
+        this.secrets = new HashSet<>();
+        this.secrets.add(id);
     }
 
     public boolean isAtStop(int stop) {
@@ -26,5 +28,17 @@ public class BusDriver {
 
     public Integer getNumberOfSecrets() {
         return secrets.size();
+    }
+
+    public Integer getCurrentStop() {
+        return stops.get(routeIndex);
+    }
+
+    public Set<Integer> getSecrets() {
+        return secrets;
+    }
+
+    public void learnSecrets(Set<Integer> allSecrets) {
+        secrets.addAll(allSecrets);
     }
 }
