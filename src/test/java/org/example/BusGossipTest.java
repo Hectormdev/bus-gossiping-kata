@@ -10,9 +10,9 @@ public class BusGossipTest {
 
     @Test
     void itSharesGossipAt5Iteration() {
-        var firstDriver = new BusDriver(List.of(3, 1, 2, 3));
-        var secondDriver = new BusDriver(List.of(3, 2, 3, 1));
-        var thirdDriver = new BusDriver(List.of(4, 2, 3, 4, 5));
+        var firstDriver = new BusDriver(0, List.of(3, 1, 2, 3));
+        var secondDriver = new BusDriver(1, List.of(3, 2, 3, 1));
+        var thirdDriver = new BusDriver(2, List.of(4, 2, 3, 4, 5));
         var gossipSystem = new BusGossipSystem(List.of(firstDriver, secondDriver, thirdDriver));
         int result = gossipSystem.simulate();
         assertEquals(5, result);
@@ -20,14 +20,24 @@ public class BusGossipTest {
 
     @Test
     void itStopsOnAllSharedSecrets() {
-        var firstDriver = new BusDriver(List.of(5, 2, 8));
-        var secondDriver = new BusDriver(List.of(5, 2, 8));
-        var thirdDriver = new BusDriver(List.of(5, 2, 8));
-        var fourthDriver = new BusDriver(List.of(5, 2, 8));
-        var fifthDriver = new BusDriver(List.of(5, 2, 8));
+        var firstDriver = new BusDriver(0, List.of(5, 2, 8));
+        var secondDriver = new BusDriver(1, List.of(5, 2, 8));
+        var thirdDriver = new BusDriver(2, List.of(5, 2, 8));
+        var fourthDriver = new BusDriver(3, List.of(5, 2, 8));
+        var fifthDriver = new BusDriver(4, List.of(5, 2, 8));
 
         var gossipSystem = new BusGossipSystem(List.of(firstDriver, secondDriver, thirdDriver, fourthDriver, fifthDriver));
         int result = gossipSystem.simulate();
         assertEquals(1, result);
+    }
+
+    @Test
+    void itStopsAfterEightHours() {
+        var firstDriver = new BusDriver(0, List.of(5, 2, 8));
+        var secondDriver = new BusDriver(1, List.of(1, 3, 2));
+
+        var gossipSystem = new BusGossipSystem(List.of(firstDriver, secondDriver));
+        int result = gossipSystem.simulate();
+        assertEquals(480, result);
     }
 }
