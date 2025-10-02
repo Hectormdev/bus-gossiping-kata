@@ -33,9 +33,9 @@ public class BusGossipSystem {
     }
 
     public void iterate() {
-        drivers.forEach(BusDriver::moveToNextStop);
         Map<Integer, List<BusDriver>> busDriverByStops = drivers.stream().collect(groupingBy(BusDriver::getCurrentStop));
         busDriverByStops.values().forEach(this::shareSecrets);
+        drivers.forEach(BusDriver::moveToNextStop);
 
     }
 
