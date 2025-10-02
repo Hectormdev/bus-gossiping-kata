@@ -8,4 +8,8 @@ public class BusDriver {
     public BusDriver(List<Integer> stops) {
         this.stops = stops;
     }
+
+  public boolean isAtStop(int stop) {
+    return true;
+  }
 }
